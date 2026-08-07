@@ -1,6 +1,6 @@
 // src/components/stores/StoreModal.jsx
 import React, { useState, useEffect } from "react";
-import "../../css/StoreModal.css";
+import "../../css/storeModal.css";
 
 const StoreModal = ({ store, isOpen, onClose, onSave, mode = "add" }) => {
   const [formData, setFormData] = useState({

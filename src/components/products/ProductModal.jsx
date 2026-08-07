@@ -1,6 +1,6 @@
 // src/components/products/ProductModal.jsx
 import React, { useState, useEffect } from "react";
-import "../../css/ProductModal.css";
+import "../../css/productModal.css";
 
 const DEFAULT_IMAGE = "https://via.placeholder.com/150?text=No+Image";
 

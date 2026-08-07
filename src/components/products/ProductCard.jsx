@@ -1,6 +1,6 @@
 // src/components/products/ProductCard.jsx
 import React from "react";
-import "../../css/ProductCard.css";
+import "../../css/productCard.css";
 
 // Clean neutral SVG Data URI fallback (works offline, zero network latency)
 const DEFAULT_PLACEHOLDER =
