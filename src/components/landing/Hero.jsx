@@ -1,6 +1,11 @@
 import React from "react";
 
 const Hero = () => {
+  // Replace this with your actual routing hook (e.g., useNavigate from react-router-dom)
+  const navigate = (path) => {
+    window.location.href = path; 
+  };
+
   return (
     <section className="hero-section">
       <div className="hero-content">
@@ -16,7 +21,10 @@ const Hero = () => {
         </p>
 
         <div className="hero-cta">
-          <button className="btn-primary btn-lg">Start Free Trial</button>
+          {/* FIXED: Changed onclick to onClick and wrapped navigate in an arrow function */}
+          <button className="btn-primary btn-lg" onClick={() => navigate("/login")}>
+            Start Free Trial
+          </button>
           <button className="btn-outline btn-lg">View Live Demo</button>
         </div>
 
