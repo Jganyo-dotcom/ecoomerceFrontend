@@ -546,9 +546,7 @@ const CatalogPage = () => {
         )}
       </div>
 
-      {/* ─────────────────────────────────────────────────────────────
-          LEVEL 1: COMPANIES LIST VIEW (DEFAULT LANDING VIEW)
-      ───────────────────────────────────────────────────────────── */}
+      {/* LEVEL 1: COMPANIES LIST VIEW */}
       {viewMode === "COMPANIES" && !selectedCompany && (
         <>
           <h2 style={inlineStyles.sectionTitle}>Partner Companies</h2>
@@ -609,9 +607,7 @@ const CatalogPage = () => {
         </>
       )}
 
-      {/* ─────────────────────────────────────────────────────────────
-          LEVEL 2: STORES LIST VIEW FOR A COMPANY
-      ───────────────────────────────────────────────────────────── */}
+      {/* LEVEL 2: STORES LIST VIEW */}
       {viewMode === "COMPANIES" && selectedCompany && !selectedStore && (
         <>
           <div style={{ marginBottom: "16px" }}>
@@ -678,9 +674,7 @@ const CatalogPage = () => {
         </>
       )}
 
-      {/* ─────────────────────────────────────────────────────────────
-          LEVEL 3: STORE SPECIFIC CATALOG PRODUCTS VIEW
-      ───────────────────────────────────────────────────────────── */}
+      {/* LEVEL 3: STORE SPECIFIC CATALOG PRODUCTS */}
       {viewMode === "COMPANIES" && selectedCompany && selectedStore && (
         <>
           {filteredProducts.length === 0 ? (
@@ -703,9 +697,7 @@ const CatalogPage = () => {
         </>
       )}
 
-      {/* ─────────────────────────────────────────────────────────────
-          ALL PRODUCTS VIEW
-      ───────────────────────────────────────────────────────────── */}
+      {/* ALL PRODUCTS VIEW */}
       {viewMode === "ALL_PRODUCTS" && (
         <>
           {isLoading ? (
@@ -738,16 +730,19 @@ const CatalogPage = () => {
           onClick={() => setIsDrawerOpen(false)}
         >
           <div className="cart-drawer" onClick={(e) => e.stopPropagation()}>
-            <div className="cart-drawer-header">
-              <h3 style={{ margin: 0 }}>Shopping Cart ({totalCartCount})</h3>
+            {/* Header with prominent X close button */}
+            <div
+              className="cart-drawer-header"
+              style={inlineStyles.cartDrawerHeader}
+            >
+              <h3 style={{ margin: 0, fontSize: "1.2rem", color: "#0f172a" }}>
+                Shopping Cart ({totalCartCount})
+              </h3>
               <button
+                type="button"
+                aria-label="Close Shopping Cart"
                 onClick={() => setIsDrawerOpen(false)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  fontSize: "1.2rem",
-                  cursor: "pointer",
-                }}
+                style={inlineStyles.mobileCloseCartBtn}
               >
                 ✕
               </button>
@@ -755,15 +750,17 @@ const CatalogPage = () => {
 
             <div className="cart-drawer-body">
               {cart.length === 0 ? (
-                <p
-                  style={{
-                    textAlign: "center",
-                    color: "#64748b",
-                    marginTop: "2rem",
-                  }}
-                >
-                  Your cart is currently empty.
-                </p>
+                <div style={{ textAlign: "center", padding: "2rem 0" }}>
+                  <p style={{ color: "#64748b", marginBottom: "1rem" }}>
+                    Your cart is currently empty.
+                  </p>
+                  <button
+                    style={inlineStyles.secondaryCloseBtn}
+                    onClick={() => setIsDrawerOpen(false)}
+                  >
+                    Continue Shopping
+                  </button>
+                </div>
               ) : (
                 cart.map((item) => (
                   <div key={getItemId(item)} className="cart-item-row">
@@ -826,6 +823,13 @@ const CatalogPage = () => {
                   }}
                 >
                   ⚡ Order All in Cart (GHS {totalCartPrice.toFixed(2)})
+                </button>
+
+                <button
+                  style={inlineStyles.secondaryCloseBtn}
+                  onClick={() => setIsDrawerOpen(false)}
+                >
+                  ✕ Close Cart
                 </button>
               </div>
             )}
@@ -1071,9 +1075,48 @@ const inlineStyles = {
     position: "absolute",
     top: "16px",
     right: "16px",
-    background: "none",
-    border: "none",
+    background: "#f1f5f9",
+    border: "1px solid #cbd5e1",
+    borderRadius: "50%",
+    width: "32px",
+    height: "32px",
+    fontSize: "1rem",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cartDrawerHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: "12px",
+    borderBottom: "1px solid #e2e8f0",
+  },
+  mobileCloseCartBtn: {
+    background: "#f1f5f9",
+    border: "1px solid #cbd5e1",
+    borderRadius: "50%",
+    width: "36px",
+    height: "36px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     fontSize: "1.2rem",
+    fontWeight: "bold",
+    color: "#334155",
+    cursor: "pointer",
+    touchAction: "manipulation",
+  },
+  secondaryCloseBtn: {
+    width: "100%",
+    marginTop: "8px",
+    padding: "10px",
+    backgroundColor: "#f1f5f9",
+    color: "#475569",
+    border: "1px solid #cbd5e1",
+    borderRadius: "6px",
+    fontWeight: "600",
     cursor: "pointer",
   },
   formStack: {
