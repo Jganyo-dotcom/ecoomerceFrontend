@@ -1,0 +1,413 @@
+/* src/css/SettingsPage.css */
+
+/* ==========================================================================
+   1. GLOBAL RESET & FIXED LAYOUT CONTAINER
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Lock full-page height to viewport on desktop */
+.settings-layout-wrapper {
+  display: flex;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden; /* Prevents whole window from scrolling */
+  background-color: #ffffff;
+  width: 100%;
+}
+
+/* Ensure Sidebar stays fixed at 100% height */
+.settings-layout-wrapper > aside,
+.settings-layout-wrapper > nav,
+.settings-layout-wrapper .sidebar {
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+/* Independent scrollbar for Main Content */
+.settings-main-content {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 2rem;
+  height: 100vh;
+  overflow-y: auto; /* Scroll ONLY the main panel */
+  min-width: 0; /* Prevents flex children overflow bugs */
+}
+
+/* ==========================================================================
+   2. PAGE HEADER & SAVE BUTTON
+   ========================================================================== */
+.settings-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.btn-save-primary {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 0.7rem 1.3rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-save-primary:hover {
+  background: #1d4ed8;
+}
+
+/* ==========================================================================
+   3. TOAST BANNER & ANIMATION
+   ========================================================================== */
+.settings-toast-banner {
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  color: #15803d;
+  padding: 0.85rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   4. SETTINGS TAB NAVIGATION
+   ========================================================================== */
+.settings-nav-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid #f1f5f9;
+  margin-bottom: 1.75rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.75rem 1.1rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  margin-bottom: -2px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.tab-btn:hover {
+  color: #0f172a;
+}
+
+.tab-btn.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+}
+
+/* ==========================================================================
+   5. SECTION CARDS & FORMS
+   ========================================================================== */
+.settings-section-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  margin-bottom: 2rem;
+}
+
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.section-card-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.section-card-subtitle {
+  margin: 0.3rem 0 1.5rem 0;
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #0f172a;
+  background-color: #ffffff;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.disabled-input {
+  background-color: #f8fafc;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.field-hint {
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+/* ==========================================================================
+   6. TOGGLES & CHECKBOXES
+   ========================================================================== */
+.toggle-list-group {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.toggle-title {
+  display: block;
+  font-size: 0.92rem;
+  color: #0f172a;
+}
+
+.toggle-desc {
+  margin: 0.2rem 0 0 0;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.toggle-checkbox {
+  width: 1.3rem;
+  height: 1.3rem;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   7. STAFF TABLE
+   ========================================================================== */
+.table-responsive {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.settings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.settings-table th {
+  background: #f8fafc;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 700;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.settings-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+}
+
+.role-badge {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn-secondary-sm {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-secondary-sm:hover {
+  background: #f8fafc;
+}
+
+.btn-table-action {
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   8. 📱 RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+/* Laptops & Tablets (1024px and below) */
+@media (max-width: 1024px) {
+  .settings-main-content {
+    padding: 1.5rem;
+  }
+}
+
+/* Tablets & Mobile Devices (768px and below) */
+@media (max-width: 768px) {
+  /* Revert to standard page layout on small screens */
+  .settings-layout-wrapper {
+    flex-direction: column;
+    height: auto;
+    max-height: none;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .settings-layout-wrapper > aside,
+  .settings-layout-wrapper > nav,
+  .settings-layout-wrapper .sidebar {
+    height: auto;
+    width: 100%;
+  }
+
+  .settings-main-content {
+    height: auto;
+    overflow-y: visible;
+    padding: 1rem;
+  }
+
+  .settings-page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .btn-save-primary {
+    width: 100%;
+    text-align: center;
+  }
+
+  .card-header-flex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .card-header-flex .btn-secondary-sm {
+    align-self: flex-start;
+  }
+
+  .settings-section-card {
+    padding: 1.25rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small Mobile Devices (480px and below) */
+@media (max-width: 480px) {
+  .settings-nav-tabs {
+    gap: 0.25rem;
+  }
+
+  .tab-btn {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.85rem;
+  }
+
+  .toggle-row {
+    align-items: flex-start;
+  }
+
+  .toggle-checkbox {
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+
+  .settings-table th,
+  .settings-table td {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.82rem;
+  }
+}

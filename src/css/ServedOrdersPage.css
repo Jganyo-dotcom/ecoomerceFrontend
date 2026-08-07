@@ -1,0 +1,473 @@
+/* src/css/ServedOrdersPage.css */
+
+/* ==========================================================================
+   1. PAGE-LEVEL LAYOUT & WRAPPER (DESKTOP)
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.served-orders-layout {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f8fafc;
+  color: #0f172a;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Main Content Area next to Sidebar */
+.served-orders-main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  min-width: 0; /* Prevents flex child overflow */
+}
+
+/* ==========================================================================
+   2. HEADER & AUDIT STATS
+   ========================================================================== */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.header-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.header-subtitle {
+  color: #64748b;
+  margin: 0.3rem 0 0 0;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.header-stats-group {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.stat-pill {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  min-width: 130px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.stat-pill.warning {
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.stat-value.text-green {
+  color: #16a34a;
+}
+.stat-value.text-orange {
+  color: #d97706;
+}
+
+/* ==========================================================================
+   3. FILTER TOOLBAR
+   ========================================================================== */
+.database-filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  background: #ffffff;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.search-field {
+  position: relative;
+  flex: 1;
+  min-width: 260px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.db-search-input {
+  width: 100%;
+  padding: 0.65rem 0.75rem 0.65rem 2.4rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  outline: none;
+  background: #f8fafc;
+}
+
+.db-search-input:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+}
+
+.filter-controls-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.filter-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.db-select-filter {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  background: #ffffff;
+  color: #0f172a;
+  outline: none;
+  cursor: pointer;
+  min-height: 38px;
+}
+
+.btn-refresh-history {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #334155;
+  cursor: pointer;
+  min-height: 38px;
+}
+
+.btn-refresh-history:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+/* ==========================================================================
+   4. DATABASE TABLE VIEW (DESKTOP)
+   ========================================================================== */
+.table-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow-x: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.orders-db-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.orders-db-table th {
+  background: #f8fafc;
+  padding: 0.85rem 1rem;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.orders-db-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.table-row-item:hover {
+  background: #f8fafc;
+}
+
+.customer-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-name {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.customer-phone {
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.payment-badge {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 0.25rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.status-pill {
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-pill.status-served {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-pill.status-pending {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.font-bold {
+  font-weight: 700;
+}
+.font-sm {
+  font-size: 0.82rem;
+}
+.text-dark {
+  color: #0f172a;
+}
+.text-muted {
+  color: #64748b;
+}
+.text-right {
+  text-align: right;
+}
+
+.btn-inspect {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #2563eb;
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-inspect:hover {
+  background: #dbeafe;
+}
+
+.no-data-cell {
+  padding: 3rem;
+  text-align: center;
+  color: #64748b;
+}
+
+.empty-search-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-reset-filters {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   5. FULL-PAGE MOBILE RESPONSIVENESS (MAX-WIDTH: 768PX)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Stack the Sidebar on top of the Main Page content */
+  .served-orders-layout {
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Target common sidebar containers to ensure full width */
+  .served-orders-layout > aside,
+  .served-orders-layout > nav,
+  .served-orders-layout .sidebar {
+    width: 100% !important;
+    min-width: 100% !important;
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+
+  .served-orders-main {
+    width: 100%;
+    padding: 1rem 0.75rem;
+    box-sizing: border-box;
+  }
+
+  /* Header adjustments */
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .header-stats-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .stat-pill {
+    min-width: 0;
+  }
+
+  /* Filter Toolbar Mobile adjustments */
+  .database-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-field {
+    min-width: 100%;
+  }
+
+  .filter-controls-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .filter-group {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .db-select-filter,
+  .btn-refresh-history {
+    width: 100%;
+  }
+
+  /* Transform Table to Card View */
+  .table-container {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .orders-db-table thead {
+    display: none;
+  }
+
+  .orders-db-table,
+  .orders-db-table tbody,
+  .orders-db-table tr,
+  .orders-db-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .orders-db-table tr.table-row-item {
+    margin-bottom: 0.85rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  }
+
+  .orders-db-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.55rem 0;
+    border-bottom: 1px dashed #e2e8f0;
+  }
+
+  .orders-db-table td:last-child {
+    border-bottom: none;
+    padding-top: 0.75rem;
+  }
+
+  /* Inject Card Data Labels */
+  .orders-db-table td[data-label]::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #64748b;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .text-right {
+    text-align: left;
+  }
+
+  .btn-inspect {
+    width: 100%;
+    padding: 0.65rem;
+    text-align: center;
+  }
+}

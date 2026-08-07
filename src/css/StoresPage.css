@@ -1,0 +1,261 @@
+/* StoresPage.css */
+
+/* 1. GLOBAL RESET & LAYOUT FIX */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.stores-layout {
+  display: flex;
+  height: 100vh; /* Lock container to viewport height */
+  max-height: 100vh;
+  overflow: hidden; /* Prevent full-window scrolling */
+  background-color: #f8fafc;
+}
+
+/* Sidebar height lock (Targets standard sidebar selectors) */
+.stores-layout > aside,
+.stores-layout > nav,
+.stores-layout .sidebar {
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+/* Main content handles scrolling independently */
+.stores-main {
+  flex: 1;
+  padding: 2rem;
+  height: 100vh;
+  overflow-y: auto; /* Scroll ONLY the main area */
+  min-width: 0; /* Prevents flex children from stretching layout */
+}
+
+/* 2. HEADER */
+.stores-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  color: #0f172a;
+  margin: 0;
+  font-weight: 800;
+}
+
+.page-subtitle {
+  color: #64748b;
+  margin: 0.25rem 0 0 0;
+  font-size: 0.95rem;
+}
+
+/* HIGH-CONTRAST ADD STORE BUTTON */
+.btn-add-store {
+  background-color: #2563eb;
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  transition:
+    transform 0.1s ease,
+    background 0.2s ease;
+}
+
+.btn-add-store:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* 3. STORES GRID */
+.stores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.store-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.store-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.store-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.store-name {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.store-location {
+  display: block;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+.status-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.status-maintenance {
+  background-color: #fef9c3;
+  color: #a16207;
+}
+
+.status-closed {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.store-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.info-label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.info-value {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* STATS METRICS BOX */
+.store-stats-box {
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 8px;
+  padding: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 1.25rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.stat-number {
+  font-size: 1.1rem;
+  color: #2563eb;
+  font-weight: 800;
+  margin-top: 0.2rem;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 28px;
+  background-color: #cbd5e1;
+}
+
+.btn-edit-store {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #0f172a;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.btn-edit-store:hover {
+  background: #e2e8f0;
+}
+
+/* 4. 📱 RESPONSIVE PHONE STYLES */
+@media (max-width: 768px) {
+  .stores-layout {
+    flex-direction: column;
+    height: auto;
+    max-height: none;
+    min-height: 100vh;
+    overflow: visible; /* Return to standard document scrolling on mobile */
+  }
+
+  .stores-layout > aside,
+  .stores-layout > nav,
+  .stores-layout .sidebar {
+    height: auto;
+    width: 100%;
+  }
+
+  .stores-main {
+    height: auto;
+    overflow-y: visible;
+    padding: 1.25rem;
+  }
+
+  .stores-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .btn-add-store {
+    width: 100%;
+  }
+
+  .stores-grid {
+    grid-template-columns: 1fr;
+  }
+}

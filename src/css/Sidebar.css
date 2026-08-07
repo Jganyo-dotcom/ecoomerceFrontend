@@ -1,0 +1,269 @@
+/* Sidebar.css */
+:root {
+  --sidebar-bg: #0f172a;
+  --sidebar-text: #f8fafc;
+  --sidebar-hover: #1e293b;
+  --accent-blue: #2563eb;
+}
+
+.app-sidebar {
+  width: 260px;
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1rem;
+  transition: all 0.3s ease;
+  z-index: 100;
+  border-right: 1px solid #334155;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.app-sidebar.collapsed {
+  width: 70px;
+  padding: 1.25rem 0.5rem;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #334155;
+}
+
+.brand-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.tenant-badge {
+  font-size: 0.75rem;
+  color: #93c5fd;
+  font-weight: 600;
+}
+
+.desktop-toggle-btn {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.desktop-toggle-btn:hover {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.sidebar-nav-item,
+.sidebar-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--sidebar-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+  text-align: left;
+}
+
+.sidebar-nav-item:hover {
+  background-color: var(--sidebar-hover);
+  color: #ffffff;
+}
+
+.sidebar-nav-item.active {
+  background-color: var(--accent-blue) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+}
+
+.sidebar-footer {
+  padding-top: 1rem;
+  border-top: 1px solid #334155;
+}
+
+.sidebar-logout-btn {
+  color: #fca5a5;
+}
+
+.sidebar-logout-btn:hover {
+  background: #451a1a;
+  color: #ffffff;
+}
+
+.mobile-topbar,
+.mobile-close-btn {
+  display: none;
+}
+
+/* Mobile Responsive Drawer */
+@media (max-width: 768px) {
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--sidebar-bg);
+    color: #ffffff;
+    padding: 0.85rem 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+  }
+
+  .mobile-hamburger-btn {
+    background: #1e293b;
+    color: #ffffff;
+    border: 1px solid #475569;
+    padding: 0.5rem 0.85rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .desktop-toggle-btn {
+    display: none;
+  }
+
+  .mobile-close-btn {
+    display: block;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.75rem;
+    cursor: pointer;
+  }
+
+  .app-sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    height: 100vh;
+    width: 260px !important;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.4);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .app-sidebar.mobile-open {
+    left: 0;
+  }
+
+  .sidebar-mobile-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(2px);
+    z-index: 99;
+  }
+}
+
+/* ==========================================================================
+   📱 MOBILE & TABLET RESPONSIVE MATRIX (< 768px)
+   ========================================================================== */
+@media (max-width: 767px) {
+  /* 1. Hide desktop layout structural tools */
+  .desktop-toggle-btn {
+    display: none !important;
+  }
+
+  /* 2. Pin mobile-only navigation control ribbon across viewport header */
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    height: 60px;
+    background-color: var(--bg);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 900;
+  }
+
+  /* 3. Hide the main container off-screen to the left by default */
+  .app-sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 280px;
+    max-width: 80vw;
+    height: 100vh !important;
+    background-color: var(--bg);
+    border-right: 1px solid var(--border);
+    transform: translateX(-100%); /* 👈 Keeps it off-screen */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1001 !important;
+  }
+
+  /* 4. Active Drawer Class: Slides the sidebar in when isMobileOpen is true */
+  .app-sidebar.mobile-open {
+    transform: translateX(0) !important;
+  }
+
+  /* 5. Force text rules to fit within mobile constraints */
+  .app-sidebar.collapsed {
+    transform: translateX(
+      -100%
+    ) !important; /* Block accidental desktop collapse rules on mobile */
+  }
+  .nav-label {
+    display: inline !important;
+  }
+
+  /* 6. Dim layout backdrop mask layer */
+  .sidebar-mobile-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+  }
+}
+
+/* ==========================================================================
+   💻 DESKTOP LAYOUT MASK (> 768px)
+   ========================================================================== */
+@media (min-width: 768px) {
+  .mobile-topbar,
+  .sidebar-mobile-backdrop,
+  .mobile-close-btn {
+    display: none !important; /* Safely kill mobile view components on monitors */
+  }
+}
