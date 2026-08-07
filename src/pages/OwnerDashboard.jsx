@@ -4,7 +4,7 @@ import Sidebar from "../components/common/Sidebar";
 import ProductCard from "../components/products/ProductCard";
 import ProductModal from "../components/products/ProductModal";
 import { toast } from "react-toastify";
-import "../css/OwnerPage.css";
+import "../css/ownerPage.css";
 import { baseApi } from "../components/common/apiEndpoint";
 
 const OwnerDashboard = () => {

@@ -1,6 +1,6 @@
 // src/components/catalog/CatalogProductCard.jsx
 import React from "react";
-import "../../css/CatalogPage.css";
+import "../../css/catalogPage.css";
 
 const DEFAULT_PLACEHOLDER =
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300' fill='%23f1f5f9'><rect width='300' height='300' fill='%23f1f5f9'/><path d='M120 110C111.716 110 105 116.716 105 125C105 133.284 111.716 140 120 140C128.284 140 135 133.284 135 125C135 116.716 128.284 110 120 110Z' fill='%2394a3b8'/><path d='M75 210L120 150L165 195L195 165L240 210H75Z' fill='%2394a3b8'/></svg>";

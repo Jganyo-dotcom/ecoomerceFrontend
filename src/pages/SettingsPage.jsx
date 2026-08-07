@@ -1,7 +1,7 @@
 // src/pages/SettingsPage.jsx
 import React, { useState } from "react";
 import Sidebar from "../components/common/Sidebar";
-import "../css/SettingsPage.css";
+import "../css/settingsPage.css";
 
 const SettingsPage = () => {
   const [activeNav, setActiveNav] = useState("settings");

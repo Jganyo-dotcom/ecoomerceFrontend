@@ -4,7 +4,7 @@ import Sidebar from "../components/common/Sidebar";
 import OrderDetailModal from "../components/orders/OrderDetailModal";
 import { toast } from "react-toastify";
 import { baseApi } from "../components/common/apiEndpoint";
-import "../css/OrdersPage.css";
+import "../css/ordersPage.css";
 
 const currencyFormatter = new Intl.NumberFormat("en-GH", {
   style: "currency",

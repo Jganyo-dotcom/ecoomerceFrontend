@@ -4,7 +4,7 @@ import CatalogProductCard from "../components/catalog/CatalogProductCard";
 import CheckoutModal from "../components/catalog/CheckoutModal";
 import { toast } from "react-toastify";
 import { baseApi } from "../components/common/apiEndpoint";
-import "../css/CatalogPage.css";
+import "../css/catalogPage.css";
 
 const LOCAL_STORAGE_KEY = "store_catalog_cart_v1";
 

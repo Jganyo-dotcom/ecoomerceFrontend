@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Sidebar from "../components/common/Sidebar";
 import StoreModal from "../components/stores/StoreModal";
 import { toast } from "react-toastify";
-import "../css/StoresPage.css";
+import "../css/storesPage.css";
 import { baseApi } from "../components/common/apiEndpoint";
 
 const StoresPage = () => {

@@ -1,7 +1,7 @@
 // src/components/common/Sidebar.jsx
 import React, { useState, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "../../css/Sidebar.css";
+import "../../css/sidebar.css";
 
 const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
   const navigate = useNavigate();
