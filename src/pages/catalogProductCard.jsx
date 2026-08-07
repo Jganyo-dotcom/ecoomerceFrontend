@@ -38,7 +38,7 @@ const CatalogPage = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${baseApi}/api/admin/product/all-available/products`,
+        `${baseApi}/api/product/all-available/products`,
         {
           headers: {
             "Content-Type": "application/json",

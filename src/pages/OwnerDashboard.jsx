@@ -25,7 +25,7 @@ const OwnerDashboard = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${baseApi}/api/admin/product/get-your-goods`,
+        `${baseApi}/api/product/get-your-goods`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -103,8 +103,8 @@ const OwnerDashboard = () => {
       const isAdd = modalMode === "add";
 
       const url = isAdd
-        ? `${baseApi}/api/admin/product/add-product`
-        : `${baseApi}/api/admin/product/update/${productId}`;
+        ? `${baseApi}/api/product/add-product`
+        : `${baseApi}/api/product/update/${productId}`;
       const method = isAdd ? "POST" : "PUT";
 
       const response = await fetch(url, {
