@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import '../css/register.css'
+import "../css/register.css";
+import { baseApi } from "../components/common/apiEndpoint";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -10,13 +11,10 @@ const Register = () => {
 
   // Combined Form State
   const [formData, setFormData] = useState({
-    // Company Fields
     companyName: "",
     companyref: "",
     domain: "",
     location: "",
-
-    // Owner User Fields
     ownerName: "",
     username: "",
     email: "",
@@ -29,7 +27,6 @@ const Register = () => {
     if (error) setError("");
   };
 
-  // Step 1 Validation before moving forward
   const handleNextStep = (e) => {
     e.preventDefault();
     const { companyName, companyref, domain, location } = formData;
@@ -46,63 +43,25 @@ const Register = () => {
     setStep(2);
   };
 
-  // Sequential Onboarding Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
 
     try {
-      // 🏢 STEP 1: Create the Company Tenant
-      const companyPayload = {
-        name: formData.companyName.trim(),
-        companyref: formData.companyref.trim(),
-        domain: formData.domain.trim().toLowerCase(),
-        location: formData.location.trim(),
-      };
-
-      const companyRes = await fetch("/api/companies", {
+      const response = await fetch(`${baseApi}/api/admin/register-workspace`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(companyPayload),
+        body: JSON.stringify(formData),
       });
 
-      const companyData = await companyRes.json();
+      const data = await response.json();
 
-      if (!companyRes.ok) {
-        throw new Error(
-          companyData.error || "Failed to create company tenant.",
-        );
+      if (!response.ok) {
+        throw new Error(data.error || "Workspace onboarding failed.");
       }
 
-      // Extract generated Company ID from backend response
-      const createdCompanyId =
-        companyData.company._id || companyData.company.id;
-
-      // 👤 STEP 2: Register Admin Owner linked to the newly created Company
-      const userPayload = {
-        companyId: createdCompanyId,
-        name: formData.ownerName.trim(),
-        username: formData.username.trim(),
-        email: formData.email.trim().toLowerCase(),
-        password: formData.password,
-      };
-
-      const userRes = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userPayload),
-      });
-
-      const userData = await userRes.json();
-
-      if (!userRes.ok) {
-        throw new Error(
-          userData.error || "Company created, but user registration failed.",
-        );
-      }
-
-      alert("Tenant & Owner account created successfully!");
+      alert("Workspace and Owner account created successfully!");
       navigate("/login");
     } catch (err) {
       setError(err.message);
@@ -143,7 +102,9 @@ const Register = () => {
           <form className="auth-form" onSubmit={handleNextStep}>
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="companyName">Company Name</label>
+                <label htmlFor="companyName" className="input-label">
+                  Company Name
+                </label>
                 <input
                   type="text"
                   id="companyName"
@@ -156,14 +117,16 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="companyref">Company Ref ID</label>
+                <label htmlFor="companyref" className="input-label">
+                  Company Ref ID
+                </label>
                 <input
                   type="text"
                   id="companyref"
                   name="companyref"
                   value={formData.companyref}
                   onChange={handleChange}
-                  placeholder="COMP-8802"
+                  placeholder="COMPANYNAME-8802"
                   required
                 />
               </div>
@@ -171,7 +134,9 @@ const Register = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="domain">Domain Slug</label>
+                <label htmlFor="domain" className="input-label">
+                  Domain Slug
+                </label>
                 <input
                   type="text"
                   id="domain"
@@ -184,7 +149,9 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="location">Location / Branch</label>
+                <label htmlFor="location" className="input-label">
+                  Location
+                </label>
                 <input
                   type="text"
                   id="location"
@@ -208,7 +175,9 @@ const Register = () => {
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="ownerName">Full Name</label>
+                <label htmlFor="ownerName" className="input-label">
+                  Full Name
+                </label>
                 <input
                   type="text"
                   id="ownerName"
@@ -221,7 +190,9 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="username">Username</label>
+                <label htmlFor="username" className="input-label">
+                  Username
+                </label>
                 <input
                   type="text"
                   id="username"
@@ -235,7 +206,9 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="email">Work Email</label>
+              <label htmlFor="email" className="input-label">
+                Email
+              </label>
               <input
                 type="email"
                 id="email"
@@ -248,7 +221,9 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password" className="input-label">
+                Password
+              </label>
               <input
                 type="password"
                 id="password"
@@ -274,7 +249,7 @@ const Register = () => {
                 className="btn-auth-submit"
                 disabled={isLoading}
               >
-                {isLoading ? "Creating Tenant..." : "Complete Onboarding"}
+                {isLoading ? "Creating Workspace..." : "Complete Onboarding"}
               </button>
             </div>
           </form>

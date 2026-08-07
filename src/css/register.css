@@ -1,91 +1,230 @@
 /* Registration Wizard Card */
 .register-card {
   max-width: 520px !important;
-  padding: 2rem 1.75rem !important;
+  padding: 2.25rem 2rem !important;
+  border-radius: 12px;
 }
 
 .wizard-progress {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 0 0.25rem;
 }
 
 .wizard-step {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  opacity: 0.5;
-  transition: opacity 0.2s ease;
-}
-
-.wizard-step.active {
-  opacity: 1;
+  gap: 0.65rem;
+  transition: all 0.25s ease;
 }
 
 .step-num {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: var(--border);
-  color: var(--text-h);
+  background: var(--bg-subtle, #f1f5f9);
+  color: var(--text-muted, #475569);
+  border: 2px solid var(--border, #cbd5e1);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 700;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
 }
 
+/* Active Step Styling */
 .wizard-step.active .step-num {
-  background: var(--accent);
+  background: var(--accent, #2563eb);
   color: #ffffff;
+  border-color: var(--accent, #2563eb);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
 .step-label {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-h);
+  color: var(--text-muted, #64748b); /* High contrast readable muted text */
+  transition: color 0.25s ease;
+  white-space: nowrap;
+}
+
+.wizard-step.active .step-label {
+  color: var(--text-h, #0f172a); /* Full contrast active color */
+  font-weight: 700;
 }
 
 .step-line {
   flex: 1;
   height: 2px;
-  background: var(--border);
-  margin: 0 0.75rem;
+  background: var(--border, #e2e8f0);
+  margin: 0 0.85rem;
+  border-radius: 2px;
 }
 
 .wizard-actions {
   display: flex;
   gap: 0.75rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 .btn-wizard-back {
   background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border);
-  padding: 0.8rem 1.2rem;
+  color: var(--text-h, #334155);
+  border: 1px solid var(--border, #cbd5e1);
+  padding: 0.8rem 1.4rem;
   border-radius: 8px;
   font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .btn-wizard-back:hover {
-  background: var(--code-bg);
-  color: var(--text-h);
+  background: var(--code-bg, #f8fafc);
+  border-color: var(--text-muted, #94a3b8);
+  color: var(--text-h, #0f172a);
 }
 
 /* Responsive adjustments for mobile screens */
 @media (max-width: 520px) {
   .register-card {
-    padding: 1.5rem 1rem !important;
+    padding: 1.5rem 1.25rem !important;
   }
 
+  /* Keep labels visible on mobile with adjusted scale & margins */
   .step-label {
-    display: none; /* Hide labels on very small screens to fit cleanly */
+    font-size: 0.75rem;
+  }
+
+  .step-num {
+    width: 26px;
+    height: 26px;
+    font-size: 0.75rem;
+  }
+
+  .step-line {
+    margin: 0 0.4rem;
   }
 
   .form-row {
     grid-template-columns: 1fr;
     gap: 0;
   }
+}
+/* ==========================================
+   FORM LABELS & INPUTS (HIGH CONTRAST)
+   ========================================== */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+/* High-contrast, bold label text */
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-h, #0f172a); /* Dark, high-contrast text color */
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.01em;
+}
+
+/* Input Fields to match crisp contrast */
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: var(--text-h, #0f172a);
+  background-color: var(--input-bg, #ffffff);
+  border: 1px solid var(--border, #cbd5e1);
+  border-radius: 8px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  outline: none;
+}
+
+/* Clear, high-contrast placeholder text */
+.form-group input::placeholder {
+  color: var(--text-muted, #64748b);
+  opacity: 0.8;
+}
+
+/* Input Focus Ring */
+.form-group input:focus {
+  border-color: var(--accent, #2563eb);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Form Row Spacing */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 520px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+/* In register.css */
+.form-group label {
+  color: #ffffff !important;
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+/* ==========================================
+   FORM LABELS (WHITE & HIGH CONTRAST)
+   ========================================== */
+
+/* Scoped specifically to register card and input-label class */
+.register-card .form-group label,
+.register-card .input-label,
+.form-group .input-label {
+  color: #ffffff !important;
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.01em;
+}
+
+/* Input Fields */
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: #0f172a;
+  background-color: #ffffff;
+  border: 1px solid var(--border, #cbd5e1);
+  border-radius: 8px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  outline: none;
+}
+
+/* Placeholder styling */
+.form-group input::placeholder {
+  color: #64748b;
+  opacity: 0.8;
+}
+
+/* Focus state */
+.form-group input:focus {
+  border-color: var(--accent, #2563eb);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
 }

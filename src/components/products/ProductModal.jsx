@@ -111,9 +111,8 @@ const ProductModal = ({
     });
 
     try {
-      const cloudinaryCloudName = "YOUR_CLOUDINARY_CLOUD_NAME";
-      const uploadPreset = "YOUR_UNSIGNED_UPLOAD_PRESET";
-
+      const cloudinaryCloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+      const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
       const uploadData = new FormData();
       uploadData.append("file", file);
       uploadData.append("upload_preset", uploadPreset);

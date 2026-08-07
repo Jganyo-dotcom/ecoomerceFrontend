@@ -1,4 +1,3 @@
-/* Sidebar.css */
 :root {
   --sidebar-bg: #0f172a;
   --sidebar-text: #f8fafc;
@@ -14,11 +13,12 @@
   flex-direction: column;
   padding: 1.25rem 1rem;
   transition: all 0.3s ease;
-  z-index: 100;
+  z-index: 1000;
   border-right: 1px solid #334155;
   height: 100vh;
   position: sticky;
   top: 0;
+  overflow-y: auto;
 }
 
 .app-sidebar.collapsed {
@@ -35,17 +35,67 @@
   border-bottom: 1px solid #334155;
 }
 
+.sidebar-brand {
+  display: flex;
+  flex-direction: column;
+}
+
 .brand-name {
   font-size: 1.15rem;
   font-weight: 700;
   color: #ffffff;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 🔗 Tenant Badge + Copy Button Container */
+.tenant-info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
 }
 
 .tenant-badge {
   font-size: 0.75rem;
   color: #93c5fd;
   font-weight: 600;
+  background: rgba(147, 197, 253, 0.1);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* 🔗 Icon-Only Copy Link Button */
+.copy-link-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+  border-radius: 5px;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.copy-link-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.copy-link-btn.copied {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: #22c55e;
+}
+
+.copy-icon {
+  font-size: 0.85rem;
 }
 
 .desktop-toggle-btn {
@@ -114,6 +164,14 @@
   border-top: 1px solid #334155;
 }
 
+.sidebar-user-info {
+  padding: 0.5rem 0.25rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  border-bottom: 1px solid #334155;
+  margin-bottom: 0.5rem;
+}
+
 .sidebar-logout-btn {
   color: #fca5a5;
 }
@@ -123,23 +181,23 @@
   color: #ffffff;
 }
 
-.mobile-topbar,
-.mobile-close-btn {
-  display: none;
-}
+/* Mobile Responsive Drawer Matrix */
+@media (max-width: 767px) {
+  .desktop-toggle-btn {
+    display: none !important;
+  }
 
-/* Mobile Responsive Drawer */
-@media (max-width: 768px) {
   .mobile-topbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 16px;
+    height: 60px;
     background-color: var(--sidebar-bg);
-    color: #ffffff;
-    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid #334155;
     position: sticky;
     top: 0;
-    z-index: 90;
+    z-index: 900;
   }
 
   .mobile-hamburger-btn {
@@ -155,10 +213,6 @@
     gap: 0.5rem;
   }
 
-  .desktop-toggle-btn {
-    display: none;
-  }
-
   .mobile-close-btn {
     display: block;
     background: none;
@@ -169,101 +223,47 @@
   }
 
   .app-sidebar {
-    position: fixed;
-    top: 0;
-    left: -280px;
-    height: 100vh;
-    width: 260px !important;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.4);
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .app-sidebar.mobile-open {
-    left: 0;
-  }
-
-  .sidebar-mobile-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.65);
-    backdrop-filter: blur(2px);
-    z-index: 99;
-  }
-}
-
-/* ==========================================================================
-   📱 MOBILE & TABLET RESPONSIVE MATRIX (< 768px)
-   ========================================================================== */
-@media (max-width: 767px) {
-  /* 1. Hide desktop layout structural tools */
-  .desktop-toggle-btn {
-    display: none !important;
-  }
-
-  /* 2. Pin mobile-only navigation control ribbon across viewport header */
-  .mobile-topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    height: 60px;
-    background-color: var(--bg);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 900;
-  }
-
-  /* 3. Hide the main container off-screen to the left by default */
-  .app-sidebar {
     position: fixed !important;
     top: 0;
     left: 0;
     width: 280px;
     max-width: 80vw;
     height: 100vh !important;
-    background-color: var(--bg);
-    border-right: 1px solid var(--border);
-    transform: translateX(-100%); /* 👈 Keeps it off-screen */
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid #334155;
+    transform: translateX(-100%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1001 !important;
   }
 
-  /* 4. Active Drawer Class: Slides the sidebar in when isMobileOpen is true */
   .app-sidebar.mobile-open {
     transform: translateX(0) !important;
   }
 
-  /* 5. Force text rules to fit within mobile constraints */
   .app-sidebar.collapsed {
-    transform: translateX(
-      -100%
-    ) !important; /* Block accidental desktop collapse rules on mobile */
+    transform: translateX(-100%) !important;
   }
+
   .nav-label {
     display: inline !important;
   }
 
-  /* 6. Dim layout backdrop mask layer */
   .sidebar-mobile-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(15, 23, 42, 0.65);
     backdrop-filter: blur(2px);
     z-index: 1000;
   }
 }
 
-/* ==========================================================================
-   💻 DESKTOP LAYOUT MASK (> 768px)
-   ========================================================================== */
 @media (min-width: 768px) {
   .mobile-topbar,
   .sidebar-mobile-backdrop,
   .mobile-close-btn {
-    display: none !important; /* Safely kill mobile view components on monitors */
+    display: none !important;
   }
 }

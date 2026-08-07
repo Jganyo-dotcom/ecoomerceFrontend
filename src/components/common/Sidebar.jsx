@@ -1,5 +1,4 @@
-// src/components/common/Sidebar.jsx
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../../css/sidebar.css";
 
@@ -7,7 +6,6 @@ const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 📥 READ USER DATA FROM LOCALSTORAGE
   // 📥 READ USER DATA FROM LOCALSTORAGE ON EVERY RENDER
   const storedUser = (() => {
     try {
@@ -17,17 +15,32 @@ const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
       console.error("Failed to parse user from localStorage", err);
       return null;
     }
-  })(); // 💡 Adding () here immediately executes the function block cleanly!
+  })();
 
   // Use values from localStorage -> props -> defaults
   const companyName = propCompanyName || storedUser?.companyName;
   const tenantId =
     propTenantId || storedUser?.companyRef || storedUser?.company;
-  // Desktop collapse state (Hide/Show sidebar content on desktop)
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
-  // Mobile drawer state
+  // Desktop collapse state & Mobile drawer state
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  // 📋 STATE FOR COPY FEEDBACK
+  const [copied, setCopied] = useState(false);
+
+  // 🔗 COPY LINK HANDLER
+  const handleCopyLink = () => {
+    const linkSlug =
+      storedUser?.companyLink || storedUser?.companyRef || tenantId || "";
+
+    const fullDomainUrl = `${window.location.origin}/${linkSlug.replace(/^\/+/, "")}`;
+
+    navigator.clipboard.writeText(fullDomainUrl).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   // Mapped directly to your application routes
   const navItems = [
@@ -56,7 +69,7 @@ const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
 
   const handleNavClick = (path) => {
     navigate(path);
-    setIsMobileOpen(false); // Close mobile drawer when a link is clicked
+    setIsMobileOpen(false);
   };
 
   const handleLogout = () => {
@@ -85,31 +98,36 @@ const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
         />
       )}
 
-      {/* 📌 MAIN SIDEBAR CONTAINER (STICKY FIXED HEIGHT) */}
+      {/* 📌 MAIN SIDEBAR CONTAINER */}
       <aside
         className={`app-sidebar ${isCollapsed ? "collapsed" : ""} ${
           isMobileOpen ? "mobile-open" : ""
         }`}
-        style={{
-          position: "sticky",
-          top: 0,
-          height: "100vh",
-          overflowY: "auto",
-          zIndex: 1000,
-          display: "flex",
-          flexDirection: "column",
-        }}
       >
         {/* SIDEBAR HEADER */}
         <div className="sidebar-header">
           {!isCollapsed && (
             <div className="sidebar-brand">
               <h2 className="brand-name">{companyName}</h2>
-              <span className="tenant-badge">Ref: {tenantId}</span>
+
+              {/* 🔗 CLEAN TENANT INFO ROW WITH COPY ICON */}
+              <div className="tenant-info-row">
+                <span className="tenant-badge">Ref: {tenantId}</span>
+
+                <button
+                  type="button"
+                  onClick={handleCopyLink}
+                  className={`copy-link-btn ${copied ? "copied" : ""}`}
+                  title={copied ? "Link Copied!" : "Copy Store Link"}
+                  aria-label="Copy Store Link"
+                >
+                  <span className="copy-icon">{copied ? "✅" : "🔗"}</span>
+                </button>
+              </div>
             </div>
           )}
 
-          {/* DESKTOP HIDE/COLLAPSE TOGGLE BUTTON */}
+          {/* DESKTOP TOGGLE BUTTON */}
           <button
             className="desktop-toggle-btn"
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -128,7 +146,7 @@ const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
         </div>
 
         {/* NAVIGATION LINKS */}
-        <nav className="sidebar-nav" style={{ flex: 1 }}>
+        <nav className="sidebar-nav">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
 
@@ -150,15 +168,7 @@ const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
         {/* FOOTER USER / LOGOUT AREA */}
         <div className="sidebar-footer">
           {!isCollapsed && storedUser?.name && (
-            <div
-              style={{
-                padding: "0.5rem 1rem",
-                fontSize: "0.8rem",
-                color: "#64748b",
-                borderBottom: "1px solid #f1f5f9",
-                marginBottom: "0.5rem",
-              }}
-            >
+            <div className="sidebar-user-info">
               Logged in as: <strong>{storedUser.name}</strong> (
               {storedUser.role})
             </div>
