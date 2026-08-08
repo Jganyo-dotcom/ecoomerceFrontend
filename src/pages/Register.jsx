@@ -12,7 +12,6 @@ const Register = () => {
   // Combined Form State
   const [formData, setFormData] = useState({
     companyName: "",
-    companyref: "",
     domain: "",
     location: "",
     ownerName: "",
@@ -29,13 +28,8 @@ const Register = () => {
 
   const handleNextStep = (e) => {
     e.preventDefault();
-    const { companyName, companyref, domain, location } = formData;
-    if (
-      !companyName.trim() ||
-      !companyref.trim() ||
-      !domain.trim() ||
-      !location.trim()
-    ) {
+    const { companyName, domain, location } = formData;
+    if (!companyName.trim() || !domain.trim() || !location.trim()) {
       setError("Please fill in all company workspace fields.");
       return;
     }
@@ -90,7 +84,7 @@ const Register = () => {
           <h2>{step === 1 ? "Setup Company Space" : "Create Admin Account"}</h2>
           <p>
             {step === 1
-              ? "Configure your company workspace and routing references."
+              ? "Configure your company workspace and domain slug."
               : "Setup the owner credentials for this workspace."}
           </p>
         </div>
@@ -111,28 +105,11 @@ const Register = () => {
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
-                  placeholder="Acme Hardware"
+                  placeholder="your company"
                   required
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="companyref" className="input-label">
-                  Company Ref ID
-                </label>
-                <input
-                  type="text"
-                  id="companyref"
-                  name="companyref"
-                  value={formData.companyref}
-                  onChange={handleChange}
-                  placeholder="COMPANYNAME-8802"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="form-row">
               <div className="form-group">
                 <label htmlFor="domain" className="input-label">
                   Domain Slug
@@ -143,25 +120,25 @@ const Register = () => {
                   name="domain"
                   value={formData.domain}
                   onChange={handleChange}
-                  placeholder="acme-hardware"
+                  placeholder="domain.com.gh"
                   required
                 />
               </div>
+            </div>
 
-              <div className="form-group">
-                <label htmlFor="location" className="input-label">
-                  Location
-                </label>
-                <input
-                  type="text"
-                  id="location"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  placeholder="Accra Main"
-                  required
-                />
-              </div>
+            <div className="form-group">
+              <label htmlFor="location" className="input-label">
+                Location
+              </label>
+              <input
+                type="text"
+                id="location"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                placeholder="Accra Main"
+                required
+              />
             </div>
 
             <button type="submit" className="btn-auth-submit">

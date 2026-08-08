@@ -91,7 +91,7 @@ const Login = () => {
               name="companyref"
               value={formData.companyref}
               onChange={handleChange}
-              placeholder="e.g. COMP-8802"
+              placeholder="Company Reference ID"
               required
             />
             <small className="input-hint">

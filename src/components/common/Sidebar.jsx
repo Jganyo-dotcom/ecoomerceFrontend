@@ -112,7 +112,7 @@ const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
 
               {/* 🔗 CLEAN TENANT INFO ROW WITH COPY ICON */}
               <div className="tenant-info-row">
-                <span className="tenant-badge">Ref: {tenantId}</span>
+                <span className="tenant-badge">link</span>
 
                 <button
                   type="button"
