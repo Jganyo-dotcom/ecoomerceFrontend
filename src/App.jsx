@@ -16,7 +16,6 @@ import "react-toastify/dist/ReactToastify.css"; // ⚠️ Required for toast sty
 // Pages
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
-import StoreSettings from "./pages/StoreSettings";
 import Register from "./pages/Register";
 import OwnerDashboard from "./pages/OwnerDashboard";
 import StoresPage from "./pages/StoresPage";

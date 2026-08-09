@@ -1,6 +1,7 @@
 // src/components/products/ProductModal.jsx
 import React, { useState, useEffect } from "react";
 import "../../css/productModal.css";
+import { baseApi } from "../common/apiEndpoint";
 
 const DEFAULT_IMAGE = "https://via.placeholder.com/150?text=No+Image";
 
@@ -27,6 +28,7 @@ const ProductModal = ({
   const [activeTab, setActiveTab] = useState("details");
   const [errorMsg, setErrorMsg] = useState("");
   const [isUploading, setIsUploading] = useState([false, false]);
+  const [isDeleting, setIsDeleting] = useState([false, false]);
 
   const [formData, setFormData] = useState({
     storeId: "",
@@ -73,6 +75,7 @@ const ProductModal = ({
     setActiveTab("details");
     setErrorMsg("");
     setIsUploading([false, false]);
+    setIsDeleting([false, false]);
   }, [isOpen, product?._id, mode]);
 
   // 🛡️ Safely handle async stores loading
@@ -93,9 +96,10 @@ const ProductModal = ({
   };
 
   // 🚀 Direct Cloudinary Unsigned Upload Handler
+  // 🚀 Direct Cloudinary Unsigned Upload Handler
   const handleImageUpload = async (index, e) => {
     setErrorMsg("");
-    const file = e.target.files[0];
+    const file = e.target.files[0]; // Fixes structural file list lookup array reference
     if (!file) return;
 
     if (file.size > 2 * 1024 * 1024) {
@@ -113,9 +117,12 @@ const ProductModal = ({
     try {
       const cloudinaryCloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
       const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
       const uploadData = new FormData();
       uploadData.append("file", file);
       uploadData.append("upload_preset", uploadPreset);
+      // 📂 FORCES DEDICATED FOLDER ROUTING ON FRONTEND (Makes parsing completely bulletproof)
+      uploadData.append("folder", "ecommerce_products");
 
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`,
@@ -149,14 +156,54 @@ const ProductModal = ({
     }
   };
 
-  const handleRemoveImage = (index) => {
-    setFormData((prev) => {
-      const updatedImages = [...prev.images];
-      updatedImages[index] = "";
-      return { ...prev, images: updatedImages };
+  // 🗑️ Backend Cloudinary Image Delete Handler
+  const handleRemoveImage = async (index) => {
+    const imageUrl = formData.images[index];
+    if (!imageUrl) return;
+
+    setErrorMsg("");
+    setIsDeleting((prev) => {
+      const copy = [...prev];
+      copy[index] = true;
+      return copy;
     });
-    const fileInput = document.getElementById(`file-input-${index}`);
-    if (fileInput) fileInput.value = null;
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${baseApi}/api/product/delete-image`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          imageUrl,
+          productId: product?._id || product?.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to remove image.");
+      }
+
+      // Update local state UI instantly
+      setFormData((prev) => {
+        const updatedImages = [...prev.images];
+        updatedImages[index] = "";
+        return { ...prev, images: updatedImages };
+      });
+    } catch (err) {
+      console.error("Deletion Error:", err);
+      setErrorMsg(err.message || "Failed to delete image.");
+    } finally {
+      setIsDeleting((prev) => {
+        const copy = [...prev];
+        copy[index] = false;
+        return copy;
+      });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -170,6 +217,11 @@ const ProductModal = ({
 
     if (isUploading.includes(true)) {
       setErrorMsg("Please wait for all image uploads to finish processing.");
+      return;
+    }
+
+    if (isDeleting.includes(true)) {
+      setErrorMsg("Please wait for image deletion to finish.");
       return;
     }
 
@@ -399,7 +451,7 @@ const ProductModal = ({
             </div>
           )}
 
-          {/* TAB 3: MEDIA (FILE UPLOAD) */}
+          {/* TAB 3: MEDIA (FILE UPLOAD + CLOUDINARY TRASH BIN DELETE) */}
           {activeTab === "media" && (
             <div className="tab-content">
               <p className="field-hint">
@@ -416,14 +468,23 @@ const ProductModal = ({
                   >
                     <div
                       className="slot-header"
-                      style={{ fontWeight: "600", marginBottom: "0.5rem" }}
+                      style={{
+                        fontWeight: "600",
+                        marginBottom: "0.5rem",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
                     >
-                      Photo {index + 1}{" "}
+                      <span>Photo {index + 1}</span>
                       {isUploading[index] && (
-                        <span
-                          style={{ color: "var(--accent)", fontSize: "0.8rem" }}
-                        >
+                        <span style={{ color: "#2563eb", fontSize: "0.8rem" }}>
                           ⚡ Uploading...
+                        </span>
+                      )}
+                      {isDeleting[index] && (
+                        <span style={{ color: "#e11d48", fontSize: "0.8rem" }}>
+                          ⏳ Deleting...
                         </span>
                       )}
                     </div>
@@ -434,8 +495,8 @@ const ProductModal = ({
                           className="preview-wrapper"
                           style={{
                             display: "flex",
-                            alignItems: "flex-start",
-                            gap: "1rem",
+                            alignItems: "center",
+                            gap: "0.75rem",
                           }}
                         >
                           <img
@@ -444,6 +505,7 @@ const ProductModal = ({
                             className="preview-img"
                             style={{
                               maxHeight: "120px",
+                              maxWidth: "140px",
                               borderRadius: "8px",
                               border: "1px solid #cbd5e1",
                               objectFit: "cover",
@@ -453,12 +515,35 @@ const ProductModal = ({
                               e.target.src = DEFAULT_IMAGE;
                             }}
                           />
+
+                          {/* 🗑️ Trash Bin Delete Button */}
                           <button
                             type="button"
-                            className="btn-secondary-sm"
                             onClick={() => handleRemoveImage(index)}
+                            disabled={isDeleting[index] || isUploading[index]}
+                            title="Delete image from Cloudinary"
+                            style={{
+                              background: "#fee2e2",
+                              color: "#991b1b",
+                              border: "1px solid #fca5a5",
+                              borderRadius: "8px",
+                              padding: "0.5rem 0.75rem",
+                              cursor:
+                                isDeleting[index] || isUploading[index]
+                                  ? "not-allowed"
+                                  : "pointer",
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "0.35rem",
+                              fontWeight: "600",
+                              fontSize: "0.85rem",
+                              transition: "all 0.2s ease",
+                            }}
                           >
-                            ✕ Remove
+                            <span>🗑️</span>
+                            <span>
+                              {isDeleting[index] ? "Deleting..." : "Delete"}
+                            </span>
                           </button>
                         </div>
                       ) : (
@@ -478,7 +563,7 @@ const ProductModal = ({
                         type="file"
                         accept="image/*"
                         onChange={(e) => handleImageUpload(index, e)}
-                        disabled={isUploading[index]}
+                        disabled={isUploading[index] || isDeleting[index]}
                         className="file-input"
                       />
                     </div>
@@ -496,7 +581,11 @@ const ProductModal = ({
             <button
               type="submit"
               className="btn-primary"
-              disabled={isUploading.includes(true) || stores.length === 0}
+              disabled={
+                isUploading.includes(true) ||
+                isDeleting.includes(true) ||
+                stores.length === 0
+              }
             >
               {mode === "add" ? "Create Product" : "Save Changes"}
             </button>
