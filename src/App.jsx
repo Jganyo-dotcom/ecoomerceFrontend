@@ -25,6 +25,7 @@ import ServedOrdersPage from "./pages/ServedOrdersPage";
 
 import "./App.css";
 import CatalogPage from "./pages/catalogProductCard";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/CatalogPage" element={<CatalogPage />} />
+          <Route path="/about" element={<AboutPage />} />
 
           {/* 🛡️ PROTECTED ROUTES (Requires JWT token in localStorage) */}
           <Route element={<ProtectedRoute />}>

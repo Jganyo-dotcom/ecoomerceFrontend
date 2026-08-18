@@ -1,3 +1,4 @@
+// src/components/common/ThemeToggle.jsx
 import React from "react";
 import { useTheme } from "../../context/ThemeContext";
 
@@ -6,11 +7,15 @@ const ThemeToggle = () => {
 
   return (
     <button
-      className="theme-toggle-btn"
+      className="theme-switch"
       onClick={toggleTheme}
-      aria-label="Toggle Theme"
+      aria-label="Toggle light or dark theme"
     >
-      {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
+      <span className={`switch-pill ${theme}`}>
+        <span className="switch-icon sun">☀️</span>
+        <span className="switch-icon moon">🌙</span>
+        <span className="switch-thumb" />
+      </span>
     </button>
   );
 };

@@ -1,23 +1,52 @@
-// src/components/landing/CTA.jsx
 import React from "react";
 
-export const CTA = () => (
-  <section className="cta-section">
-    <div className="cta-box">
-      <h2>Ready to Build Your E-Commerce Empire?</h2>
-      <p>
-        Setup takes less than 5 minutes. Start organizing your tenants today.
-      </p>
-      <button className="btn-primary btn-lg">Deploy Your Platform Now</button>
-    </div>
-  </section>
-);
+export const CTA = () => {
+  const navigate = (path) => {
+    window.location.href = path;
+  };
 
-// src/components/common/Footer.jsx
-export const Footer = () => (
-  <footer className="footer">
-    <div className="footer-container">
-      <p>&copy; {new Date().getFullYear()} OmniStoreHQ. All rights reserved.</p>
-    </div>
-  </footer>
-);
+  return (
+    <section className="cta-wrapper">
+      <div className="cta-card">
+        <div className="cta-content">
+          <span className="title-kicker">FOR SELLERS</span>
+
+          <h2>
+            Have something
+            <br />
+            <span>worth selling?</span>
+          </h2>
+
+          <p>
+            Create your own store, list your products and start reaching
+            customers.
+          </p>
+
+          <button
+            className="btn-cta-green"
+            onClick={() => navigate("/register")}
+          >
+            Create Your Store →
+          </button>
+        </div>
+
+        <div className="cta-visual">
+          <div className="store-card">
+            <div className="store-icon">🏪</div>
+
+            <div>
+              <strong>Your Store</strong>
+              <span>Ready to grow</span>
+            </div>
+
+            <div className="store-status">● Live</div>
+          </div>
+
+          <div className="floating-product product-one">📦</div>
+
+          <div className="floating-product product-two">🛍️</div>
+        </div>
+      </div>
+    </section>
+  );
+};

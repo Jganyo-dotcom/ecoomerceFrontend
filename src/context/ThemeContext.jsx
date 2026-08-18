@@ -1,16 +1,16 @@
+// src/context/ThemeContext.jsx
 import React, { createContext, useState, useEffect, useContext } from "react";
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState("dark"); // Default to dark for modern SaaS aesthetic
+  // Default to light theme as primary
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     if (saved) {
       setTheme(saved);
-    } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-      setTheme("light");
     }
   }, []);
 

@@ -1,44 +1,38 @@
 import React from "react";
+import { useTheme } from "../../context/ThemeContext";
 
-const SaveBar = ({
-  isDirty,
-  onSave,
-  onDiscard,
-  isSaving = false,
-  message = "Unsaved changes",
-}) => {
-  if (!isDirty) return null;
+const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="save-bar-wrapper">
-      <div className="save-bar-container">
-        <div className="save-bar-info">
-          <span className="save-bar-indicator"></span>
-          <span className="save-bar-message">{message}</span>
-        </div>
-
-        <div className="save-bar-actions">
-          <button
-            type="button"
-            className="btn-discard"
-            onClick={onDiscard}
-            disabled={isSaving}
-          >
-            Discard
-          </button>
-          <button
-            type="button"
-            className="btn-save"
-            onClick={onSave}
-            disabled={isSaving}
-          >
-            {isSaving ? "Saving..." : "Save Changes"}
-          </button>
-        </div>
+    <header className="nav-header">
+      <div className="nav-brand" onClick={() => (window.location.href = "/")}>
+        OmniStore<span>HQ</span>
       </div>
-    </div>
+
+      <div className="nav-right">
+        <button
+          className="nav-link"
+          onClick={() => (window.location.href = "/catalog")}
+        >
+          Catalog
+        </button>
+        <button
+          className="nav-link"
+          onClick={() => (window.location.href = "/login")}
+        >
+          Sign In
+        </button>
+        <button
+          className="theme-toggle-btn"
+          onClick={toggleTheme}
+          aria-label="Toggle Theme"
+        >
+          {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+        </button>
+      </div>
+    </header>
   );
 };
 
-export { SaveBar };
-export default SaveBar;
+export default Navbar;

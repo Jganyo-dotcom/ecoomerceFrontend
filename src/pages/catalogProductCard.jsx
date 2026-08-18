@@ -152,7 +152,7 @@ const CatalogPage = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `${baseApi}/api/store/company/${companyRef || companyId}`,
+          `${baseApi}/api/customer/company/${companyRef || companyId}`,
           {
             headers: {
               "Content-Type": "application/json",

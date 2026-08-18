@@ -6,15 +6,15 @@ import { baseApi } from "../common/apiEndpoint";
 const DEFAULT_IMAGE = "https://via.placeholder.com/150?text=No+Image";
 
 const CURRENCY_OPTIONS = [
-  { code: "USD", symbol: "$", label: "USD ($) - US Dollar" },
+  // { code: "USD", symbol: "$", label: "USD ($) - US Dollar" },
   { code: "GHS", symbol: "₵", label: "GHS (₵) - Ghanaian Cedi" },
-  { code: "EUR", symbol: "€", label: "EUR (€) - Euro" },
-  { code: "GBP", symbol: "£", label: "GBP (£) - British Pound" },
-  { code: "CAD", symbol: "CA$", label: "CAD ($) - Canadian Dollar" },
-  { code: "AUD", symbol: "A$", label: "AUD ($) - Australian Dollar" },
-  { code: "NGN", symbol: "₦", label: "NGN (₦) - Nigerian Naira" },
-  { code: "KES", symbol: "KSh", label: "KES (KSh) - Kenyan Shilling" },
-  { code: "INR", symbol: "₹", label: "INR (₹) - Indian Rupee" },
+  // { code: "EUR", symbol: "€", label: "EUR (€) - Euro" },
+  // { code: "GBP", symbol: "£", label: "GBP (£) - British Pound" },
+  // { code: "CAD", symbol: "CA$", label: "CAD ($) - Canadian Dollar" },
+  // { code: "AUD", symbol: "A$", label: "AUD ($) - Australian Dollar" },
+  // { code: "NGN", symbol: "₦", label: "NGN (₦) - Nigerian Naira" },
+  // { code: "KES", symbol: "KSh", label: "KES (KSh) - Kenyan Shilling" },
+  // { code: "INR", symbol: "₹", label: "INR (₹) - Indian Rupee" },
 ];
 
 const ProductModal = ({
@@ -27,6 +27,7 @@ const ProductModal = ({
 }) => {
   const [activeTab, setActiveTab] = useState("details");
   const [errorMsg, setErrorMsg] = useState("");
+  const [toastMsg, setToastMsg] = useState("");
   const [isUploading, setIsUploading] = useState([false, false]);
   const [isDeleting, setIsDeleting] = useState([false, false]);
 
@@ -39,6 +40,13 @@ const ProductModal = ({
     description: "",
     images: ["", ""],
   });
+
+  const showToast = (msg) => {
+    setToastMsg(msg);
+    setTimeout(() => {
+      setToastMsg("");
+    }, 3500);
+  };
 
   // 🛠️ Populate/reset form state when modal visibility or product ID changes
   useEffect(() => {
@@ -74,6 +82,7 @@ const ProductModal = ({
 
     setActiveTab("details");
     setErrorMsg("");
+    setToastMsg("");
     setIsUploading([false, false]);
     setIsDeleting([false, false]);
   }, [isOpen, product?._id, mode]);
@@ -96,10 +105,9 @@ const ProductModal = ({
   };
 
   // 🚀 Direct Cloudinary Unsigned Upload Handler
-  // 🚀 Direct Cloudinary Unsigned Upload Handler
   const handleImageUpload = async (index, e) => {
     setErrorMsg("");
-    const file = e.target.files[0]; // Fixes structural file list lookup array reference
+    const file = e.target.files?.[0];
     if (!file) return;
 
     if (file.size > 2 * 1024 * 1024) {
@@ -121,7 +129,6 @@ const ProductModal = ({
       const uploadData = new FormData();
       uploadData.append("file", file);
       uploadData.append("upload_preset", uploadPreset);
-      // 📂 FORCES DEDICATED FOLDER ROUTING ON FRONTEND (Makes parsing completely bulletproof)
       uploadData.append("folder", "ecommerce_products");
 
       const response = await fetch(
@@ -246,7 +253,37 @@ const ProductModal = ({
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal-container"
+        style={{ position: "relative" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Floating Toast Notification */}
+        {toastMsg && (
+          <div
+            style={{
+              position: "absolute",
+              top: "1rem",
+              right: "1rem",
+              zIndex: 1100,
+              backgroundColor: "#0f172a",
+              color: "#ffffff",
+              padding: "0.75rem 1.25rem",
+              borderRadius: "8px",
+              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.3)",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              fontSize: "0.85rem",
+              fontWeight: "600",
+              borderLeft: "4px solid #f59e0b",
+            }}
+          >
+            <span>⚠️</span>
+            <span>{toastMsg}</span>
+          </div>
+        )}
+
         {/* Header */}
         <div className="modal-header">
           <div>
@@ -451,7 +488,7 @@ const ProductModal = ({
             </div>
           )}
 
-          {/* TAB 3: MEDIA (FILE UPLOAD + CLOUDINARY TRASH BIN DELETE) */}
+          {/* TAB 3: MEDIA */}
           {activeTab === "media" && (
             <div className="tab-content">
               <p className="field-hint">
@@ -562,7 +599,24 @@ const ProductModal = ({
                         id={`file-input-${index}`}
                         type="file"
                         accept="image/*"
-                        onChange={(e) => handleImageUpload(index, e)}
+                        onClick={(e) => {
+                          if (formData.images[index]) {
+                            e.preventDefault();
+                            showToast(
+                              "Kindly delete the existing image before uploading a new one.",
+                            );
+                          }
+                        }}
+                        onChange={(e) => {
+                          if (formData.images[index]) {
+                            e.target.value = null;
+                            showToast(
+                              "Kindly delete the existing image before uploading a new one.",
+                            );
+                            return;
+                          }
+                          handleImageUpload(index, e);
+                        }}
                         disabled={isUploading[index] || isDeleting[index]}
                         className="file-input"
                       />
