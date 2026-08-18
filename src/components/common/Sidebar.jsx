@@ -21,6 +21,7 @@ const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
   const companyName = propCompanyName || storedUser?.companyName;
   const tenantId =
     propTenantId || storedUser?.companyRef || storedUser?.company;
+    localStorage.setItem("companyRef", tenantId);
 
   // Desktop collapse state & Mobile drawer state
   const [isCollapsed, setIsCollapsed] = useState(false);

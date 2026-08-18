@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Login = () => {
+  const existingRef = localStorage.getItem("companyRef");
   const [formData, setFormData] = useState({
-    companyref: "",
+    companyref: existingRef,
     email: "",
     password: "",
   });
