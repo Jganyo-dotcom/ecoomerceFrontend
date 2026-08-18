@@ -47,7 +47,7 @@ function App() {
         />
 
         <Routes>
-          {/* 🌐 PUBLIC ROUTES (Accessible by anyone) */}
+          {/* 🌐 PUBLIC ROUTES (Accessible by anyone NOKAY) */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
