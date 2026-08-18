@@ -1,6 +1,8 @@
 // src/pages/LandingPage.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext";
+
 import {
   Sun,
   Moon,
@@ -62,7 +64,8 @@ const SAMPLE_GOODS = [
 ];
 
 export default function LandingPage() {
-  const [darkMode, setDarkMode] = useState(true);
+  //  ADD THIS LINE:
+  const { theme, toggleTheme } = useTheme();
   const [activeFilter, setActiveFilter] = useState("all");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -75,7 +78,7 @@ export default function LandingPage() {
   const linkStyle = { textDecoration: "none" };
 
   return (
-    <div className={`app-container ${darkMode ? "dark" : "light"}`}>
+    <div className={`app-container ${theme === "dark" ? "dark" : "light"}`}>
       {/* Navigation Header */}
       <nav className="navbar">
         <div className="nav-wrapper">
@@ -103,13 +106,12 @@ export default function LandingPage() {
           {/* Navbar Right Actions */}
           <div className="nav-actions">
             <button
-              onClick={() => setDarkMode(!darkMode)}
+              onClick={toggleTheme}
               className="theme-toggle-btn"
               aria-label="Toggle Theme"
             >
-              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-
             {/* Desktop Auth Buttons */}
             <div className="auth-buttons desktop-only">
               <Link to="/login" className="btn-secondary" style={linkStyle}>
@@ -119,7 +121,6 @@ export default function LandingPage() {
                 Sign Up
               </Link>
             </div>
-
             {/* Mobile Hamburger Toggle Button */}
             <button
               className="hamburger-btn mobile-only"

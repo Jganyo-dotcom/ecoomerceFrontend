@@ -4,20 +4,29 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  // Default to light theme as primary
-  const [theme, setTheme] = useState("light");
-
-  useEffect(() => {
+  // 1. Get the initial theme instantly
+  const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("theme");
-    if (saved) {
-      setTheme(saved);
+    return saved || "light";
+  });
+
+  // 2. Sync both localStorage AND the actual HTML DOM class
+  useEffect(() => {
+    const root = window.document.documentElement; // Usually targets the <html> tag
+
+    if (theme === "dark") {
+      root.classList.add("dark");
+      root.classList.remove("light");
+    } else {
+      root.classList.add("light");
+      root.classList.remove("dark");
     }
-  }, []);
+
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const toggleTheme = () => {
-    const nextTheme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
-    localStorage.setItem("theme", nextTheme);
+    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
   };
 
   return (
