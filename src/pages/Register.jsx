@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../css/register.css";
 import { baseApi } from "../components/common/apiEndpoint";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const Register = () => {
         throw new Error(data.error || "Workspace onboarding failed.");
       }
 
-      alert("Workspace and Owner account created successfully!");
+      toast.success(data.message);
       navigate("/login");
     } catch (err) {
       setError(err.message);
