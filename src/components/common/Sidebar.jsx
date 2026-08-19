@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react"; // 🌟 Added useContext
 import { useNavigate, useLocation } from "react-router-dom";
 import "../../css/sidebar.css";
+import { toast } from "react-toastify";
+import { SimpleAuthContext } from "../../context/AuthContext"; // 🔌 Import your context file outlet
 
 const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // 🌟 Grab the state setter from your Context Provider Engine
+  const { setIsAuthenticated } = useContext(SimpleAuthContext);
 
   // 📥 READ USER DATA FROM LOCALSTORAGE ON EVERY RENDER
   const storedUser = (() => {
@@ -21,7 +26,11 @@ const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
   const companyName = propCompanyName || storedUser?.companyName;
   const tenantId =
     propTenantId || storedUser?.companyRef || storedUser?.company;
+
+  // Safe execution pattern check
+  if (tenantId) {
     localStorage.setItem("companyRef", tenantId);
+  }
 
   // Desktop collapse state & Mobile drawer state
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -73,8 +82,17 @@ const Sidebar = ({ companyName: propCompanyName, tenantId: propTenantId }) => {
     setIsMobileOpen(false);
   };
 
+  // 🚪 FIXED LOGOUT FUNCTION
   const handleLogout = () => {
-    localStorage.clear();
+    // 1. Wipe credentials out of local memory tracks
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    // 2. Clear state engine so Route Guards unlock login pages
+    setIsAuthenticated(false);
+
+    // 3. Navigate back to login frame cleanly
+    toast.success("Logged out successfully");
     navigate("/login");
   };
 

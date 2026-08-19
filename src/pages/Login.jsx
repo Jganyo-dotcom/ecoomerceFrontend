@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../css/login.css";
 import { baseApi } from "../components/common/apiEndpoint";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { SimpleAuthContext } from "../context/AuthContext"; // 🔌 Connects to your auth context
 
 const Login = () => {
+  // Pull the authentication state setter function from context
+  const { setIsAuthenticated } = useContext(SimpleAuthContext);
+
   const existingRef = localStorage.getItem("companyRef");
   const [formData, setFormData] = useState({
-    companyref: existingRef,
+    companyref: existingRef || "", // Fallback to an empty string if null
     email: "",
     password: "",
   });
@@ -38,7 +42,6 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      // Connects to your backend API endpoint
       const response = await fetch(`${baseApi}/api/admin/login-owner`, {
         method: "POST",
         headers: {
@@ -59,10 +62,16 @@ const Login = () => {
         );
       }
 
-      // Store stateless auth token and tenant information
+      // 1. Store auth credentials safely in the storage layer
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("companyRef", formData.companyref.trim()); // Save ref for easier subsequent logins
 
+      // 2. Alert the route guard immediately before redirecting
+      setIsAuthenticated(true);
+
+      // 3. Navigate cleanly over to your dashboard workspace
+      toast.success("Welcome back! Loading workspace...");
       navigate("/manager");
     } catch (err) {
       toast.error(err.message);

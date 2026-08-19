@@ -1,18 +1,17 @@
 // src/components/common/ProtectedRoute.jsx
-import React from "react";
+import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { SimpleAuthContext } from "../../context/AuthContext"; // 🔌 Connects to the empty outlet file
 
 const ProtectedRoute = () => {
-  const token = localStorage.getItem("token");
+  // Pulls the verified answer directly out of App.jsx
+  const { isAuthenticated } = useContext(SimpleAuthContext);
 
-  // If no token is found, redirect to login page
-  if (!token) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Render child routes if authenticated
   return <Outlet />;
 };
 
-export { ProtectedRoute };
 export default ProtectedRoute;

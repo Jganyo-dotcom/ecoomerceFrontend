@@ -375,3 +375,118 @@ button {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* Pretty Loading Overlay System */
+.pretty-loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #151c2c 0%, #0b0f19 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+.pretty-loader-modal {
+  background: rgba(21, 28, 44, 0.75);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  backdrop-filter: blur(16px);
+  padding: 40px;
+  border-radius: 24px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Spinner Animations Hooks */
+.pretty-spinner {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  margin-bottom: 24px;
+}
+
+.spinner-ring {
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 4px solid transparent;
+  border-top-color: #6366f1;
+  border-bottom-color: #a855f7;
+  border-radius: 50%;
+  animation: spinLoader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.spinner-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  background: #ec4899;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 12px #ec4899;
+}
+
+@keyframes spinLoader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.pretty-loader-modal h2 {
+  color: #f9fafb;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.pretty-loader-modal p {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+/* Fluid Animated Loader Progress Bar Line */
+.loader-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #1e293b;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.loader-progress-fill {
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+  border-radius: 10px;
+  animation: indeterminateProgress 1.6s ease-in-out infinite;
+}
+
+@keyframes indeterminateProgress {
+  0% {
+    transform: translateX(-100%) scaleX(1);
+  }
+  50% {
+    transform: translateX(0%) scaleX(1.5);
+  }
+  100% {
+    transform: translateX(200%) scaleX(1);
+  }
+}
