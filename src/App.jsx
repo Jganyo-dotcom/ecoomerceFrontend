@@ -27,6 +27,7 @@ import SettingsPage from "./pages/SettingsPage";
 import ServedOrdersPage from "./pages/ServedOrdersPage";
 import CatalogPage from "./pages/catalogProductCard";
 import AboutPage from "./pages/AboutPage";
+import ResetPassword from "./pages/ResetPassword";
 import "./App.css";
 import { baseApi } from "./components/common/apiEndpoint";
 
@@ -144,7 +145,7 @@ function App() {
 
             <Route path="/CatalogPage" element={<CatalogPage />} />
             <Route path="/about" element={<AboutPage />} />
-
+            <Route path="/forgetPassword" element={<ResetPassword />} />
             {/* 🛡️ PROTECTED ROUTES */}
             <Route element={<ProtectedRoute />}>
               <Route path="/settings" element={<SettingsPage />} />
